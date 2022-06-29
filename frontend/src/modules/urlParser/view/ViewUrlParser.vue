@@ -1,12 +1,18 @@
 <template>
   <ElContainer direction="vertical">
     <div :class="$style.input">
-      <ElInput autofocus v-model="input"/>
-      <ElButton type="primary" :class="$style.button" @click="parse" :disabled="!canParse">Parse URL</ElButton>
+      <ElForm :inline="true">
+        <ElFormItem>
+          <ElInput autofocus v-model="input"/>
+        </ElFormItem>
+        <ElFormItem>
+          <ElButton type="primary" @click="parse" :disabled="!canParse">Parse URL</ElButton>
+        </ElFormItem>
+      </ElForm>
     </div>
     <div :class="$style.attribute">
       <ElTable :data="data">
-        <ElTableColumn width="100px" prop="param" label="Params"></ElTableColumn>
+        <ElTableColumn width="150px" prop="param" label="Params"></ElTableColumn>
         <ElTableColumn prop="value" label="Value"></ElTableColumn>
       </ElTable>
     </div>

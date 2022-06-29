@@ -8,13 +8,7 @@ interface ModuleState {
 export const useModuleStore = defineStore('modules', {
   state: () => {
     return {
-      modules: [
-        {
-          id: 'yaml-to-json',
-          name: 'YAML to JSON',
-          route: '/modules/yaml-to-json'
-        }
-      ],
+      modules: [],
     } as ModuleState
   },
   actions: {

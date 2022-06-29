@@ -1,5 +1,6 @@
 export namespace app {
 	
+	
 	export class ParseResult {
 	    scheme?: string;
 	    opaque?: string;

@@ -2,8 +2,11 @@ package app
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/url"
+
+	"github.com/twpayne/go-jsonstruct"
 )
 
 type App struct {
@@ -57,4 +60,35 @@ func (a *App) ParseUrl(s string) (*ParseResult, error) {
 	}
 
 	return result, nil
+}
+
+type JsonToGoInput struct {
+	JsonCode string
+}
+
+func (a *App) JsonToGo(input JsonToGoInput) (*string, error) {
+	options := []jsonstruct.GeneratorOption{
+		jsonstruct.WithOmitEmpty(jsonstruct.OmitEmptyAuto),
+		jsonstruct.WithSkipUnparseableProperties(true),
+		jsonstruct.WithUseJSONNumber(false),
+		jsonstruct.WithGoFormat(true),
+	}
+
+	var value interface{}
+	err := json.Unmarshal([]byte(input.JsonCode), &value)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal json: %w", err)
+	}
+
+	observedValue := &jsonstruct.ObservedValue{}
+	observedValue = observedValue.Merge(value)
+
+	goCode, err := jsonstruct.NewGenerator(options...).GoCode(observedValue)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate go code: %w", err)
+	}
+
+	output := string(goCode)
+
+	return &output, nil
 }

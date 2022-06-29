@@ -5,7 +5,7 @@ const { modules } = useModuleStore()
 
 <template>
   <ElContainer :class="$style.container">
-    <ElAside width="250px" :class="$style.elAside">
+    <ElAside width="200px" :class="$style.elAside">
       <ElScrollbar>
         <ElMenu :class="$style.elMenu" router>
           <ElMenuItem v-for="module in modules" :key="module.id" :index="module.id" :route="{ path: module.route }">{{ module.name }}</ElMenuItem>
