@@ -19,15 +19,16 @@ func (a *App) Startup(ctx context.Context) {
 }
 
 type ParseResult struct {
-	Scheme      string `json:"scheme,omitempty"`
-	Opaque      string `json:"opaque,omitempty"`
-	Host        string `json:"host,omitempty"`
-	Path        string `json:"path,omitempty"`         // path (relative paths may omit leading slash)
-	RawPath     string `json:"raw_path,omitempty"`     // encoded path hint (see EscapedPath method)
-	ForceQuery  bool   `json:"force_query,omitempty"`  // append a query ('?') even if RawQuery is empty
-	RawQuery    string `json:"raw_query,omitempty"`    // encoded query values, without '?'
-	Fragment    string `json:"fragment,omitempty"`     // fragment for references, without '#'
-	RawFragment string `json:"raw_fragment,omitempty"` // encoded fragment hint (see EscapedFragment method)
+	Scheme      string              `json:"scheme,omitempty"`
+	Opaque      string              `json:"opaque,omitempty"`
+	Host        string              `json:"host,omitempty"`
+	Path        string              `json:"path,omitempty"`
+	RawPath     string              `json:"raw_path,omitempty"`
+	ForceQuery  bool                `json:"force_query,omitempty"`
+	RawQuery    string              `json:"raw_query,omitempty"`
+	Fragment    string              `json:"fragment,omitempty"`
+	RawFragment string              `json:"raw_fragment,omitempty"`
+	Query       map[string][]string `json:"query,omitempty"`
 }
 
 func (a *App) ParseUrl(s string) (*ParseResult, error) {
@@ -46,6 +47,13 @@ func (a *App) ParseUrl(s string) (*ParseResult, error) {
 		RawQuery:    u.RawQuery,
 		Fragment:    u.Fragment,
 		RawFragment: u.RawFragment,
+	}
+
+	if u.RawQuery != "" {
+		result.Query = make(map[string][]string)
+		for s2, strings := range u.Query() {
+			result.Query[s2] = strings
+		}
 	}
 
 	return result, nil

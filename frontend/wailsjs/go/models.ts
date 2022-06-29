@@ -10,6 +10,7 @@ export namespace app {
 	    raw_query?: string;
 	    fragment?: string;
 	    raw_fragment?: string;
+	    query?: {[key: string]: string[]};
 	
 	    static createFrom(source: any = {}) {
 	        return new ParseResult(source);
@@ -26,6 +27,7 @@ export namespace app {
 	        this.raw_query = source["raw_query"];
 	        this.fragment = source["fragment"];
 	        this.raw_fragment = source["raw_fragment"];
+	        this.query = source["query"];
 	    }
 	}
 
