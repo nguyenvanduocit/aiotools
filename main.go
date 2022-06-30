@@ -15,7 +15,7 @@ var assets embed.FS
 func main() {
 	// Create an instance of the app structure
 	myApp := app.NewApp()
-	pacakgeIsight := app.PackageInsight{}
+	packageInsight := app.PackageInsight{}
 	urlParser := app.UrlParser{}
 	structTransform := app.StructTransformRequest{}
 	// Create application with options
@@ -30,7 +30,7 @@ func main() {
 		OnStartup:        myApp.Startup,
 		Bind: []interface{}{
 			myApp,
-			&pacakgeIsight,
+			&packageInsight,
 			&urlParser,
 			&structTransform,
 		},
