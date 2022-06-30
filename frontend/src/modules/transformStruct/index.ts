@@ -3,8 +3,8 @@ import {useModuleStore} from "../../store/modules";
 
 export const install = () => {
   router.addRoute({
-    path: "/modules/transform",
-    component: () => import("./view/ViewJsonToGo.vue"),
+    path: "/modules/transform-struct",
+    component: () => import("./view/ViewTransformStruct.vue"),
   })
 
   const moduleStore = useModuleStore();
@@ -12,7 +12,7 @@ export const install = () => {
     {
       id: 'transform',
       name: 'Transform struct',
-      route: '/modules/transform'
+      route: '/modules/transform-struct'
     }
   )
 }

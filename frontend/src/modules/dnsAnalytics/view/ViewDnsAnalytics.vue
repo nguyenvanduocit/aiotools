@@ -2,7 +2,7 @@
   <ElContainer direction="vertical">
     <div :class="$style.row">
       <ElInput autofocus v-model="input"/>
-      <ElButton :class="$style.button" type="primary" @click="parse" :disabled="!canParse">Parse URL</ElButton>
+      <ElButton :class="$style.button" type="primary" @click="parse" :disabled="!canParse">Analyze</ElButton>
     </div>
     <div :class="$style.attribute">
       <ElTable :data="data">
@@ -22,7 +22,7 @@ const data = ref();
 const input = ref("")
 const parse = () => {
   ParseUrl(input.value).then(res => {
-    const result = res as app.ParseUrlResponse
+    const result = res as app.ParseResult
     data.value = Object.entries(result).map(([key, value]) => {
       return {
         param: key,
@@ -43,8 +43,6 @@ const canParse = computed(() => input.value.length)
 <style module lang="stylus">
 .attribute
   margin-top 20px
-.input
-  display flex
 .button
   margin-left 10px
 .row

@@ -1,24 +1,16 @@
 <template>
-  <ElRow>
-    <ElForm :inline="true">
-      <ElFormItem label="Transform">
-        <ElSelect v-model="inputLanguage">
-          <ElOption value="json">JSON</ElOption>
-          <ElOption value="yaml">YAML</ElOption>
-        </ElSelect>
-      </ElFormItem>
-      <ElFormItem label="To">
-        <ElSelect v-model="outputLanguage">
-          <ElOption value="go">Golang</ElOption>
-          <ElOption value="php">PHP</ElOption>
-        </ElSelect>
-      </ElFormItem>
-      <ElFormItem>
-        <ElButton type="primary" @click="convert" :disabled="!canTransform">Transform</ElButton>
-      </ElFormItem>
-    </ElForm>
+  <ElRow :gutter="30" justify="space-around" align="middle">
+    <ElSelect v-model="inputLanguage">
+      <ElOption value="json">JSON</ElOption>
+      <ElOption value="yaml">YAML</ElOption>
+    </ElSelect>
+    <ElButton type="primary" @click="convert" :disabled="!canTransform">Transform</ElButton>
+    <ElSelect v-model="outputLanguage">
+      <ElOption value="go">Golang</ElOption>
+      <ElOption value="php">PHP</ElOption>
+    </ElSelect>
   </ElRow>
-
+  <ElDivider/>
   <ElRow :gutter="30">
     <ElCol :span="12">
       <Codemirror
@@ -45,7 +37,7 @@
 
 <script setup lang="ts">
 import { Codemirror } from 'vue-codemirror'
-import {JsonToGo} from "../../../../wailsjs/go/app/App";
+import {TransformStruct} from "../../../../wailsjs/go/app/App";
 import {ElMessage} from "element-plus";
 import { json } from '@codemirror/lang-json'
 import { oneDark } from '@codemirror/theme-one-dark'
@@ -62,10 +54,10 @@ const outputCode = ref("");
 const canTransform = computed(() => inputCode.value.length > 0)
 
 const convert = () => {
-  JsonToGo({
-    JsonCode: inputCode.value,
-  }).then((jsonToGo) => {
-    outputCode.value = jsonToGo;
+  TransformStruct({
+    SourceCode: inputCode.value,
+  }).then((destinationCoude) => {
+    outputCode.value = destinationCoude;
   }).catch((err) => {
     ElMessage({
       message: err,
