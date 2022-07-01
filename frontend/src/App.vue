@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import {useModuleStore} from "./store/modules";
+import {onMounted} from "vue";
+import {WindowShow} from "../wailsjs/runtime";
 const { modules } = useModuleStore()
+onMounted(() => {
+  WindowShow()
+})
 </script>
 
 <template>
@@ -12,7 +17,7 @@ const { modules } = useModuleStore()
         </ElMenu>
       </ElScrollbar>
     </ElAside>
-    <ElMain>
+    <ElMain :class="$style.main">
       <RouterView/>
     </ElMain>
   </ElContainer>
@@ -30,7 +35,9 @@ const { modules } = useModuleStore()
   justify-content center
   align-items center
 .elAside
-  border-right solid 1px var(--el-menu-border-color);
+  border-right none;
 .elMenu
   border-right none
+.main
+  background #000000
 </style>

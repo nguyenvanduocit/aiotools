@@ -1,0 +1,16 @@
+{
+  "source" : ["./build/bin/AIO Tools.app"],
+  "bundle_id" : "io.aiocean.tools",
+  "apple_id": {
+    "username": "nguyenvanduocit@gmail.com",
+    "password": "vkbd-kjhe-xaxa-kise",
+    "provider": "53NJTFJB2R"
+  },
+  "dmg": {
+    "output_path": "./build/bin/AIO Tools.dmg",
+    "volume_name": "AIO Tools"
+  },
+  "sign" :{
+    "application_identity" : "Developer ID Application: Duoc Nguyen (53NJTFJB2R)"
+  }
+}

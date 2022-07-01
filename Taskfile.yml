@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  buildFrontend:
+    dir: 'frontend'
+    cmds:
+      - npm run build
+  build:
+    deps:
+      - buildFrontend
+    cmds:
+      - wails build
+  release:
+    cmds:
+      - gon -log-level=info ./build/darwin/gon-sign.json
+  backend:
+    cmds:
+      - wails dev

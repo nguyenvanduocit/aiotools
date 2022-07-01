@@ -1,4 +1,4 @@
-package app
+package transformstruct
 
 import (
 	"encoding/json"
@@ -7,15 +7,20 @@ import (
 	"github.com/twpayne/go-jsonstruct"
 )
 
-type StructTransformRequest struct{}
+type TransformStruct struct {
+}
 
-type TransformStructRequest struct {
+func NewPlugin() *TransformStruct {
+	return &TransformStruct{}
+}
+
+type Request struct {
 	SourceCode          string
 	SourceLanguage      string
 	DestinationLanguage string
 }
 
-func (a *StructTransformRequest) TransformStruct(input TransformStructRequest) (*string, error) {
+func (a *TransformStruct) TransformStruct(input Request) (*string, error) {
 	options := []jsonstruct.GeneratorOption{
 		jsonstruct.WithOmitEmpty(jsonstruct.OmitEmptyAuto),
 		jsonstruct.WithSkipUnparseableProperties(true),

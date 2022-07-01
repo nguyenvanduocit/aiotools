@@ -1,11 +1,56 @@
-export namespace app {
+export namespace parseurl {
 	
+	export class Response {
+	    scheme?: string;
+	    opaque?: string;
+	    host?: string;
+	    path?: string;
+	    raw_path?: string;
+	    force_query?: boolean;
+	    raw_query?: string;
+	    fragment?: string;
+	    raw_fragment?: string;
+	    query?: {[key: string]: string[]};
 	
+	    static createFrom(source: any = {}) {
+	        return new Response(source);
+	    }
 	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.scheme = source["scheme"];
+	        this.opaque = source["opaque"];
+	        this.host = source["host"];
+	        this.path = source["path"];
+	        this.raw_path = source["raw_path"];
+	        this.force_query = source["force_query"];
+	        this.raw_query = source["raw_query"];
+	        this.fragment = source["fragment"];
+	        this.raw_fragment = source["raw_fragment"];
+	        this.query = source["query"];
+	    }
+	}
+
+}
+
+export namespace packageinsights {
+	
+	export class Request {
+	    package_name: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Request(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.package_name = source["package_name"];
+	    }
+	}
 	export class Detail {
-	    quality?: number;
-	    popularity?: number;
-	    maintenance?: number;
+	    quality: number;
+	    popularity: number;
+	    maintenance: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Detail(source);
@@ -19,9 +64,9 @@ export namespace app {
 	    }
 	}
 	export class Score {
-	    final?: number;
+	    final: number;
 	    // Go type: Detail
-	    detail?: any;
+	    detail: any;
 	
 	    static createFrom(source: any = {}) {
 	        return new Score(source);
@@ -52,10 +97,10 @@ export namespace app {
 		}
 	}
 	export class Maintenance {
-	    releasesFrequency?: number;
-	    commitsFrequency?: number;
-	    openIssues?: number;
-	    issuesDistribution?: number;
+	    releasesFrequency: number;
+	    commitsFrequency: number;
+	    openIssues: number;
+	    issuesDistribution: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Maintenance(source);
@@ -70,10 +115,10 @@ export namespace app {
 	    }
 	}
 	export class Popularity {
-	    communityInterest?: number;
-	    downloadsCount?: number;
-	    downloadsAcceleration?: number;
-	    dependentsCount?: number;
+	    communityInterest: number;
+	    downloadsCount: number;
+	    downloadsAcceleration: number;
+	    dependentsCount: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Popularity(source);
@@ -88,10 +133,10 @@ export namespace app {
 	    }
 	}
 	export class Quality {
-	    carefulness?: number;
-	    tests?: number;
-	    health?: number;
-	    branding?: number;
+	    carefulness: number;
+	    tests: number;
+	    health: number;
+	    branding: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Quality(source);
@@ -107,11 +152,11 @@ export namespace app {
 	}
 	export class Evaluation {
 	    // Go type: Quality
-	    quality?: any;
+	    quality: any;
 	    // Go type: Popularity
-	    popularity?: any;
+	    popularity: any;
 	    // Go type: Maintenance
-	    maintenance?: any;
+	    maintenance: any;
 	
 	    static createFrom(source: any = {}) {
 	        return new Evaluation(source);
@@ -143,7 +188,7 @@ export namespace app {
 		}
 	}
 	export class Modifiers {
-	    branch?: string;
+	    type: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Modifiers(source);
@@ -151,14 +196,14 @@ export namespace app {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.branch = source["branch"];
+	        this.type = source["type"];
 	    }
 	}
 	export class Info {
-	    service?: string;
-	    type?: string;
+	    service: string;
+	    type: string;
 	    // Go type: Modifiers
-	    modifiers?: any;
+	    modifiers: any;
 	
 	    static createFrom(source: any = {}) {
 	        return new Info(source);
@@ -190,10 +235,9 @@ export namespace app {
 		}
 	}
 	export class Urls {
-	    original?: string;
-	    service?: string;
-	    shields?: string;
-	    content?: string;
+	    original: string;
+	    shields: string;
+	    content: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Urls(source);
@@ -202,7 +246,6 @@ export namespace app {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.original = source["original"];
-	        this.service = source["service"];
 	        this.shields = source["shields"];
 	        this.content = source["content"];
 	    }
@@ -242,10 +285,9 @@ export namespace app {
 		}
 	}
 	export class Files {
-	    readmeSize?: number;
-	    testsSize?: number;
-	    hasNpmIgnore?: boolean;
-	    hasChangelog?: boolean;
+	    readmeSize: number;
+	    testsSize: number;
+	    hasChangelog: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Files(source);
@@ -255,16 +297,14 @@ export namespace app {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.readmeSize = source["readmeSize"];
 	        this.testsSize = source["testsSize"];
-	        this.hasNpmIgnore = source["hasNpmIgnore"];
 	        this.hasChangelog = source["hasChangelog"];
 	    }
 	}
 	export class Source {
 	    // Go type: Files
-	    files?: any;
-	    badges?: Badges[];
-	    linters?: string[];
-	    outdatedDependencies?: {[key: string]: string};
+	    files: any;
+	    badges: Badges[];
+	    linters: string[];
 	
 	    static createFrom(source: any = {}) {
 	        return new Source(source);
@@ -275,7 +315,6 @@ export namespace app {
 	        this.files = this.convertValues(source["files"], null);
 	        this.badges = this.convertValues(source["badges"], Badges);
 	        this.linters = source["linters"];
-	        this.outdatedDependencies = source["outdatedDependencies"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -297,8 +336,8 @@ export namespace app {
 		}
 	}
 	export class Statuses {
-	    context?: string;
-	    state?: string;
+	    context: string;
+	    state: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Statuses(source);
@@ -312,10 +351,10 @@ export namespace app {
 	}
 	export class Commits {
 	    // Go type: time.Time
-	    from?: any;
+	    from: any;
 	    // Go type: time.Time
-	    to?: any;
-	    count?: number;
+	    to: any;
+	    count: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Commits(source);
@@ -347,8 +386,8 @@ export namespace app {
 		}
 	}
 	export class Contributors {
-	    username?: string;
-	    commitsCount?: number;
+	    username: string;
+	    commitsCount: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Contributors(source);
@@ -361,9 +400,10 @@ export namespace app {
 	    }
 	}
 	export class Issues {
-	    count?: number;
-	    openCount?: number;
-	    isDisabled?: boolean;
+	    count: number;
+	    openCount: number;
+	    distribution: {[key: string]: number};
+	    isDisabled: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Issues(source);
@@ -373,19 +413,20 @@ export namespace app {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.count = source["count"];
 	        this.openCount = source["openCount"];
+	        this.distribution = source["distribution"];
 	        this.isDisabled = source["isDisabled"];
 	    }
 	}
 	export class Github {
-	    homepage?: string;
-	    starsCount?: number;
-	    forksCount?: number;
-	    subscribersCount?: number;
+	    homepage: string;
+	    starsCount: number;
+	    forksCount: number;
+	    subscribersCount: number;
 	    // Go type: Issues
-	    issues?: any;
-	    contributors?: Contributors[];
-	    commits?: Commits[];
-	    statuses?: Statuses[];
+	    issues: any;
+	    contributors: Contributors[];
+	    commits: Commits[];
+	    statuses: Statuses[];
 	
 	    static createFrom(source: any = {}) {
 	        return new Github(source);
@@ -423,10 +464,10 @@ export namespace app {
 	}
 	export class Downloads {
 	    // Go type: time.Time
-	    from?: any;
+	    from: any;
 	    // Go type: time.Time
-	    to?: any;
-	    count?: number;
+	    to: any;
+	    count: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Downloads(source);
@@ -458,8 +499,8 @@ export namespace app {
 		}
 	}
 	export class Npm {
-	    downloads?: Downloads[];
-	    starsCount?: number;
+	    downloads: Downloads[];
+	    starsCount: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new Npm(source);
@@ -489,47 +530,11 @@ export namespace app {
 		    return a;
 		}
 	}
-	export class Releases {
-	    // Go type: time.Time
-	    from?: any;
-	    // Go type: time.Time
-	    to?: any;
-	    count?: number;
-	
-	    static createFrom(source: any = {}) {
-	        return new Releases(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.from = this.convertValues(source["from"], null);
-	        this.to = this.convertValues(source["to"], null);
-	        this.count = source["count"];
-	    }
-	
-		convertValues(a: any, classs: any, asMap: boolean = false): any {
-		    if (!a) {
-		        return a;
-		    }
-		    if (a.slice) {
-		        return (a as any[]).map(elem => this.convertValues(elem, classs));
-		    } else if ("object" === typeof a) {
-		        if (asMap) {
-		            for (const key of Object.keys(a)) {
-		                a[key] = new classs(a[key]);
-		            }
-		            return a;
-		        }
-		        return new classs(a);
-		    }
-		    return a;
-		}
-	}
 	export class Links {
-	    npm?: string;
-	    homepage?: string;
-	    repository?: string;
-	    bugs?: string;
+	    npm: string;
+	    homepage: string;
+	    repository: string;
+	    bugs: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Links(source);
@@ -544,9 +549,9 @@ export namespace app {
 	    }
 	}
 	export class Repository {
-	    type?: string;
-	    url?: string;
-	    directory?: string;
+	    type: string;
+	    url: string;
+	    directory: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Repository(source);
@@ -560,8 +565,8 @@ export namespace app {
 	    }
 	}
 	export class Maintainers {
-	    username?: string;
-	    email?: string;
+	    username: string;
+	    email: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Maintainers(source);
@@ -574,8 +579,8 @@ export namespace app {
 	    }
 	}
 	export class Publisher {
-	    username?: string;
-	    email?: string;
+	    username: string;
+	    email: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Publisher(source);
@@ -587,41 +592,23 @@ export namespace app {
 	        this.email = source["email"];
 	    }
 	}
-	export class Author {
-	    name?: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new Author(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.name = source["name"];
-	    }
-	}
 	export class Metadata {
-	    name?: string;
-	    scope?: string;
-	    version?: string;
-	    description?: string;
-	    keywords?: string[];
+	    name: string;
+	    scope: string;
+	    version: string;
+	    description: string;
+	    keywords: string[];
 	    // Go type: time.Time
-	    date?: any;
-	    // Go type: Author
-	    author?: any;
+	    date: any;
 	    // Go type: Publisher
-	    publisher?: any;
-	    maintainers?: Maintainers[];
+	    publisher: any;
+	    maintainers: Maintainers[];
 	    // Go type: Repository
-	    repository?: any;
+	    repository: any;
 	    // Go type: Links
-	    links?: any;
-	    license?: string;
-	    dependencies?: {[key: string]: string};
-	    devDependencies?: {[key: string]: string};
-	    peerDependencies?: {[key: string]: string};
-	    releases?: Releases[];
-	    readme?: string;
+	    links: any;
+	    license: string;
+	    hasSelectiveFiles: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Metadata(source);
@@ -635,17 +622,12 @@ export namespace app {
 	        this.description = source["description"];
 	        this.keywords = source["keywords"];
 	        this.date = this.convertValues(source["date"], null);
-	        this.author = this.convertValues(source["author"], null);
 	        this.publisher = this.convertValues(source["publisher"], null);
 	        this.maintainers = this.convertValues(source["maintainers"], Maintainers);
 	        this.repository = this.convertValues(source["repository"], null);
 	        this.links = this.convertValues(source["links"], null);
 	        this.license = source["license"];
-	        this.dependencies = source["dependencies"];
-	        this.devDependencies = source["devDependencies"];
-	        this.peerDependencies = source["peerDependencies"];
-	        this.releases = this.convertValues(source["releases"], Releases);
-	        this.readme = source["readme"];
+	        this.hasSelectiveFiles = source["hasSelectiveFiles"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -668,13 +650,13 @@ export namespace app {
 	}
 	export class Collected {
 	    // Go type: Metadata
-	    metadata?: any;
+	    metadata: any;
 	    // Go type: Npm
-	    npm?: any;
+	    npm: any;
 	    // Go type: Github
-	    github?: any;
+	    github: any;
 	    // Go type: Source
-	    source?: any;
+	    source: any;
 	
 	    static createFrom(source: any = {}) {
 	        return new Collected(source);
@@ -706,18 +688,18 @@ export namespace app {
 		    return a;
 		}
 	}
-	export class GetPackageInsightsResponse {
+	export class Response {
 	    // Go type: time.Time
-	    analyzedAt?: any;
+	    analyzedAt: any;
 	    // Go type: Collected
-	    collected?: any;
+	    collected: any;
 	    // Go type: Evaluation
-	    evaluation?: any;
+	    evaluation: any;
 	    // Go type: Score
-	    score?: any;
+	    score: any;
 	
 	    static createFrom(source: any = {}) {
-	        return new GetPackageInsightsResponse(source);
+	        return new Response(source);
 	    }
 	
 	    constructor(source: any = {}) {
@@ -746,34 +728,44 @@ export namespace app {
 		    return a;
 		}
 	}
-	export class ParseUrlResponse {
-	    scheme?: string;
-	    opaque?: string;
-	    host?: string;
-	    path?: string;
-	    raw_path?: string;
-	    force_query?: boolean;
-	    raw_query?: string;
-	    fragment?: string;
-	    raw_fragment?: string;
-	    query?: {[key: string]: string[]};
+
+}
+
+export namespace getjson {
+	
+	export class Input {
+	    code: string;
+	    query: string;
 	
 	    static createFrom(source: any = {}) {
-	        return new ParseUrlResponse(source);
+	        return new Input(source);
 	    }
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.scheme = source["scheme"];
-	        this.opaque = source["opaque"];
-	        this.host = source["host"];
-	        this.path = source["path"];
-	        this.raw_path = source["raw_path"];
-	        this.force_query = source["force_query"];
-	        this.raw_query = source["raw_query"];
-	        this.fragment = source["fragment"];
-	        this.raw_fragment = source["raw_fragment"];
+	        this.code = source["code"];
 	        this.query = source["query"];
+	    }
+	}
+
+}
+
+export namespace setjson {
+	
+	export class Input {
+	    code: string;
+	    query: string;
+	    value: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new Input(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.code = source["code"];
+	        this.query = source["query"];
+	        this.value = source["value"];
 	    }
 	}
 

@@ -5,5 +5,9 @@ const mainStore = useMainStore()
 </script>
 
 <template>
-  <ElButton @click="mainStore.increment">count is: {{ mainStore.counter }}</ElButton>
+  <ElContainer>
+    <ElRow>
+      Welcome to AIO Tools
+    </ElRow>
+  </ElContainer>
 </template>

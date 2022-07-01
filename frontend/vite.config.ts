@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
+import removePreloads from './plugins/removePreloads'
 
 export default defineConfig({
   plugins: [
@@ -30,6 +31,7 @@ export default defineConfig({
     }),
     Icons({
       autoInstall: true,
-    })
+    }),
+    removePreloads()
   ]
 })

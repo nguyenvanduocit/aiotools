@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "outputfilename": "aiotools",
   "frontend:install": "pnpm install",
-  "frontend:build": "pnpm run build",
+  "frontend:build": "",
   "frontend:dev:watcher": "pnpm run dev",
   "frontend:dev:serverUrl": "http://localhost:3000",
   "author": {

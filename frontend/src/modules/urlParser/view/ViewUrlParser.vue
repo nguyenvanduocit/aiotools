@@ -1,8 +1,8 @@
 <template>
   <ElContainer direction="vertical">
     <div :class="$style.row">
-      <ElInput autofocus v-model="input"/>
-      <ElButton :class="$style.button" type="primary" @click="parse" :disabled="!canParse">Parse URL</ElButton>
+      <ElInput autofocus v-model="input" @keydown.enter="parse"/>
+      <ElButton :loading="isLoading" :class="$style.button" type="primary" @click="parse" :disabled="!canParse">Parse URL</ElButton>
     </div>
     <div :class="$style.attribute">
       <ElTable :data="data">
@@ -14,15 +14,18 @@
 </template>
 
 <script setup lang="ts">
-import {ParseUrl} from "../../../../wailsjs/go/app/App";
-import {app} from "../../../../wailsjs/go/models";
+import {ParseUrl} from "../../../../wailsjs/go/parseurl/ParseUrl";
 import {ElMessage} from "element-plus";
+import {parseurl} from "../../../../wailsjs/go/models";
 
 const data = ref();
-const input = ref("")
+const input = ref('')
+const isLoading = ref(false)
+
 const parse = () => {
+  isLoading.value = true
   ParseUrl(input.value).then(res => {
-    const result = res as app.ParseUrlResponse
+    const result = res as parseurl.Response
     data.value = Object.entries(result).map(([key, value]) => {
       return {
         param: key,
@@ -34,6 +37,8 @@ const parse = () => {
       message: err,
       type: 'error',
     })
+  }).finally(() => {
+    isLoading.value = false
   })
 }
 

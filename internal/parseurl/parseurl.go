@@ -1,13 +1,17 @@
-package app
+package parseurl
 
 import (
 	"fmt"
 	"net/url"
 )
 
-type UrlParser struct{}
+type ParseUrl struct{}
 
-type ParseUrlResponse struct {
+func NewPlugin() *ParseUrl {
+	return &ParseUrl{}
+}
+
+type Response struct {
 	Scheme      string              `json:"scheme,omitempty"`
 	Opaque      string              `json:"opaque,omitempty"`
 	Host        string              `json:"host,omitempty"`
@@ -20,13 +24,13 @@ type ParseUrlResponse struct {
 	Query       map[string][]string `json:"query,omitempty"`
 }
 
-func (a *UrlParser) ParseUrl(s string) (*ParseUrlResponse, error) {
+func (a *ParseUrl) ParseUrl(s string) (*Response, error) {
 	u, err := url.Parse(s)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse url: %w", err)
 	}
 
-	result := &ParseUrlResponse{
+	result := &Response{
 		Scheme:      u.Scheme,
 		Opaque:      u.Opaque,
 		Host:        u.Host,

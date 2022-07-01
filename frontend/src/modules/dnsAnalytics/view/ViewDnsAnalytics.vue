@@ -1,48 +1,70 @@
 <template>
-  <ElContainer direction="vertical">
+  <div :class="$style.container">
     <div :class="$style.row">
-      <ElInput autofocus v-model="input"/>
-      <ElButton :class="$style.button" type="primary" @click="parse" :disabled="!canParse">Analyze</ElButton>
+      <ElInput placeholder="12bit.vn" autofocus v-model="host" @keydown.enter="lookup"/>
+      <ElButton :class="$style.button" type="primary" @click="lookup" :disabled="!canParse">Analyze</ElButton>
     </div>
-    <div :class="$style.attribute">
-      <ElTable :data="data">
-        <ElTableColumn width="150px" prop="param" label="Params"></ElTableColumn>
-        <ElTableColumn prop="value" label="Value"></ElTableColumn>
-      </ElTable>
+
+    <ElAlert  type="error" v-if="error" :closable="false">{{error}}</ElAlert>
+    <div :class="$style.code">
+      <Codemirror
+          v-if="code"
+          v-model="code"
+          :autofocus="true"
+          :indent-with-tab="true"
+          :tab-size="2"
+          :extensions="extensions"
+      ></Codemirror>
+      <ElEmpty v-else></ElEmpty>
     </div>
-  </ElContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {ParseUrl} from "../../../../wailsjs/go/app/App";
-import {app} from "../../../../wailsjs/go/models";
-import {ElMessage} from "element-plus";
-
+import {dnslookup} from "../../../../wailsjs/go/models";
+import {Lookup} from "../../../../wailsjs/go/dnslookup/DnsLookup";
+import {Codemirror} from "vue-codemirror";
+import {computed} from "vue";
+import {json} from "@codemirror/lang-json";
+import {oneDark} from "@codemirror/theme-one-dark";
 const data = ref();
-const input = ref("")
-const parse = () => {
-  ParseUrl(input.value).then(res => {
-    const result = res as app.ParseResult
-    data.value = Object.entries(result).map(([key, value]) => {
-      return {
-        param: key,
-        value: value as string
-      }
-    })
+const host = ref("")
+const extensions = [json(), oneDark]
+const error = ref()
+
+const code = computed(() => {
+  return JSON.stringify(data.value, null, "\t")
+})
+
+const lookup = () => {
+  error.value = null
+  const input: dnslookup.Input = {
+    host: host.value,
+  }
+  Lookup(input).then(res => {
+    const result = res as dnslookup.Output
+    data.value = result
   }).catch(err => {
-    ElMessage({
-      message: err,
-      type: 'error',
-    })
+    error.value = err
   })
 }
 
-const canParse = computed(() => input.value.length)
+const canParse = computed(() => host.value.length)
+
 </script>
 
 <style module lang="stylus">
-.attribute
+.container
+  display flex
+  flex-direction column
+  justify-items center
+  align-items stretch
+  height 100%
+.code
+  flex-grow 1
   margin-top 20px
+  :global(.cm-editor)
+    height 100%
 .button
   margin-left 10px
 .row
